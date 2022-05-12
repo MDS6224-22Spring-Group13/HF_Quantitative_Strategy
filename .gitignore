@@ -1,0 +1,11 @@
+__pycache__/
+.ipynb_checkpoints/
+dataset/
+runs/
+checkpoints/
+data_preprocessing.ipynb
+main_LSTM.ipynb
+main_Transformer.ipynb
+data.npz
+data_test.npz
+data_train.npz
