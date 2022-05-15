@@ -1,8 +1,5 @@
 # HF_Quantitative_Strategy
 HIgh frequnency quantitative trading strategy for crypto-currency market
 
-[Presentation](https://docs.qq.com/doc/DSWpCWXhqSGRSYk9Z)
-
-[Overleaf](https://www.overleaf.com/6481227275ptcbrzpqhyvk)
-
+Coding files at [brach:master](github.com/MDS6224-22Spring-Group13/HF_Quantitative_Strategy)
 
