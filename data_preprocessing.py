@@ -27,14 +27,17 @@ def process_data(X, y, TT, val_size, test_size, threshold=1, random_state=42):
     TT_train, TT_val = train_test_split(TT_train, test_size=(
         val_size/(1-test_size)), shuffle=False, random_state=random_state)
 
-#     # Normalization
-#     X_train = (X_train - X_train.mean(axis=0)) / X_train.std(axis=0)
-#     X_val = (X_val - X_train.mean(axis=0)) / X_train.std(axis=0)
-#     X_test = (X_test - np.concatenate([X_train, X_val], axis=0).mean(axis=0)) / np.concatenate([X_train, X_val], axis=0).std(axis=0)
+    # Normalization
+    X_train_mean, X_train_std = X_train.mean(axis=0), X_train.std(axis=0)
+    X_test_mean, X_test_std = np.concatenate([X_train, X_val], axis=0).mean(
+        axis=0), np.concatenate([X_train, X_val], axis=0).std(axis=0)
+    X_train = (X_train - X_train_mean) / X_train_std
+    X_val = (X_val - X_train_mean) / X_train_std
+    X_test = (X_test - X_test_mean) / X_test_std
 
-    X_train = (X_train - X_train.mean(axis=0)) / X_train.std(axis=0)
-    X_val = (X_val - X_val.mean(axis=0)) / X_val.std(axis=0)
-    X_test = (X_test - X_test.mean(axis=0)) / X_test.std(axis=0)
+#     X_train = (X_train - X_train.mean(axis=0)) / X_train.std(axis=0)
+#     X_val = (X_val - X_val.mean(axis=0)) / X_val.std(axis=0)
+#     X_test = (X_test - X_test.mean(axis=0)) / X_test.std(axis=0)
 
     # Add two more features
     spread_train = generate_feature(TT_train, threshold)
