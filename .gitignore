@@ -10,3 +10,4 @@ data.npz
 data_test.npz
 data_train.npz
 plots/
+run.sh
