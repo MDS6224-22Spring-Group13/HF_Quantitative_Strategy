@@ -5,8 +5,6 @@ from torch.utils.tensorboard import SummaryWriter
 from pathlib import Path
 import random
 import datetime
-import os
-import copy
 from collections import deque
 from models import *
 
@@ -69,13 +67,15 @@ for epoch in range(1, num_epochs + 1):
     ret_deque.append(cum_ret_val)
     accu_deque.append(accuracy)
     para_deque.append(LSTM.model.state_dict())
-    print(f'Epoch: {epoch}\tCumret_val: {cum_ret_val: .4f}\tAccuracy: {accuracy: .4f}')
+    print(
+        f'Epoch: {epoch}\tCumret_val: {cum_ret_val: .4f}\tAccuracy: {accuracy: .4f}')
     writer.add_scalar('Accumulated Return / validation', cum_ret_val, epoch)
     writer.add_scalar('Accuracy / validation', accuracy, epoch)
     writer.add_scalar('l2 loss / train', epoch_loss_train, epoch)
     writer.add_scalar('l2 loss / validation', epoch_loss_val, epoch)
     if (len(ret_deque) >= patience and max(ret_deque) == ret_deque[0]) or epoch == num_epochs:
         model_index = np.array(accu_deque).argmax()
-        torch.save(para_deque[model_index], f'./log/LSTM/checkpoints/{time}_{filename}')
+        torch.save(para_deque[model_index],
+                   f'./log/LSTM/checkpoints/{time}_{filename}')
         del para_deque
         break

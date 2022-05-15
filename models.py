@@ -2,12 +2,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch import Tensor
-from torch.utils.data import Dataset, DataLoader
-from pathlib import Path
-import random
-import datetime
-import os
-import copy
+from torch.utils.data import DataLoader
 import numpy as np
 from numpy.lib.stride_tricks import sliding_window_view
 from scipy.stats.mstats import winsorize
@@ -163,10 +158,10 @@ class Base:
         X_train, X_val, X_test, y_train, y_val, y_test = load_data(source_path)
         X_train_ts = look_back(X_train, self.look_back_window)
         X_val_ts = look_back(X_val, self.look_back_window)
-        y_train_ts = 100 * Tensor(winsorize(y_train, [percentile, percentile])[
-                                  (self.look_back_window-1):].reshape(-1, 1))
-        y_val_ts = 100 * Tensor(winsorize(y_val, [percentile, percentile])[
-                                (self.look_back_window-1):].reshape(-1, 1))
+        y_train_ts = Tensor(winsorize(y_train, [percentile, percentile])[
+            (self.look_back_window-1):].reshape(-1, 1))
+        y_val_ts = Tensor(winsorize(y_val, [percentile, percentile])[
+            (self.look_back_window-1):].reshape(-1, 1))
         self.train_set = DataLoader(CustomDataset(
             X_train_ts, y_train_ts), batch_size=self.batch_size, shuffle=False)
         self.val_set = DataLoader(CustomDataset(
