@@ -19,13 +19,6 @@ def look_back(x, window_size):
     return Tensor(temp).reshape(-1, window_size * x.shape[1])
 
 
-def look_back_(x, window_size):
-    temp = []
-    for i in range(window_size):
-        temp.append(np.roll(x, i, axis=0)[(window_size-1):])
-    return Tensor(np.array(temp)).permute(1, 0, 2).reshape(-1, window_size * x.shape[1])
-
-
 def load_data(path):
     data = np.load(path)
     X_train = data['X_train']
@@ -174,18 +167,6 @@ class Base:
                                   (self.look_back_window-1):].reshape(-1, 1))
         y_val_ts = 100 * Tensor(winsorize(y_val, [percentile, percentile])[
                                 (self.look_back_window-1):].reshape(-1, 1))
-        self.train_set = DataLoader(CustomDataset(
-            X_train_ts, y_train_ts), batch_size=self.batch_size, shuffle=False)
-        self.val_set = DataLoader(CustomDataset(
-            X_val_ts, y_val_ts), batch_size=self.batch_size, shuffle=False)
-
-    def pack_data_(self, source_path):
-        data = np.load(source_path)
-        X_train, X_val, y_train, y_val = data['X_train'], data['X_val'], data['y_train'], data['y_val']
-        X_train_ts = look_back(X_train, self.look_back_window)
-        X_val_ts = look_back(X_val, self.look_back_window)
-        y_train_ts = Tensor(y_train[(self.look_back_window-1):].reshape(-1, 1))
-        y_val_ts = Tensor(y_val[(self.look_back_window-1):].reshape(-1, 1))
         self.train_set = DataLoader(CustomDataset(
             X_train_ts, y_train_ts), batch_size=self.batch_size, shuffle=False)
         self.val_set = DataLoader(CustomDataset(

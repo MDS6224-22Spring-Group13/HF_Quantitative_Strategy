@@ -68,8 +68,6 @@ writer = SummaryWriter(f'./log/Transformer/runs/{time}/{filename}')
 Transformer = AlphaTransformer(batch_size, look_back_window, percentile, lr, step_size, gamma, d_model,
                                nhead, num_encoder_layers, dim_feedforward, dropout_e, dropout_d, depth, source_path, device)
 
-Transformer.pack_data_('./temp.npz')
-
 for epoch in range(1, num_epochs + 1):
     epoch_loss_train, cum_ret_train = Transformer.train()
     epoch_loss_val, cum_ret_val, accuracy = Transformer.evaluate()

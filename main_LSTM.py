@@ -61,7 +61,6 @@ writer = SummaryWriter(f'./log/LSTM/runs/{time}/{filename}')
 
 LSTM = BaselineLSTM(batch_size, look_back_window, percentile, lr, step_size,
                     gamma, input_size, hidden_size, num_layers, dropout, source_path, device)
-LSTM.pack_data_('./temp.npz')
 
 for epoch in range(1, num_epochs + 1):
     epoch_loss_train, cum_ret_train = LSTM.train()
