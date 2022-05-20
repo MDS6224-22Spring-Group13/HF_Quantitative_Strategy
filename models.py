@@ -34,7 +34,6 @@ class LSTM(nn.Module):
             num_layers=num_layers,
             batch_first=batch_first,
             dropout=dropout)
-        self.activation = nn.Tanh
         self.linear1 = nn.Linear(
             hidden_size * look_back_window, hidden_size * look_back_window)
         self.dropout1 = nn.Dropout(dropout)
@@ -198,7 +197,7 @@ class Base:
                 feature = batch['feature'].reshape(
                     batch['feature'].shape[0], self.look_back_window, self.num_features).to(self.device)
                 label = batch['label'].to(self.device)
-                output = self.model(feature)
+                output = self.model(feature).to(self.device)
                 batch_loss = self.criterion(output, label)
                 output = (output - output.mean()) / output.std()
                 cum_ret += (output * label).sum()
